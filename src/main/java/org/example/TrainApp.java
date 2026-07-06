@@ -57,7 +57,6 @@ public class TrainApp {
                 System.out.println("   " + b.name + " -> " + b.capacity);
             }
         }
-
         System.out.println("\nUC9 grouping completed...");
     }
 }
