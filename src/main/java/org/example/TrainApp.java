@@ -1,27 +1,21 @@
 package org.example;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
 
-        List<String> passengerBogies = new ArrayList<>();
+        Set<String> bogieIds = new HashSet<>();
 
-        passengerBogies.add("Sleeper");
-        passengerBogies.add("AC Chair");
-        passengerBogies.add("First Class");
+        bogieIds.add("BG101");
+        bogieIds.add("BG102");
+        bogieIds.add("BG103");
+        bogieIds.add("BG101");  // duplicate — intentionally  added
+        bogieIds.add("BG102");  // duplicate — intentionally  added
 
-        System.out.println("Bogies after adding: " + passengerBogies);
-
-        passengerBogies.remove("AC Chair");
-
-        System.out.println("Bogies after removing AC Chair: " + passengerBogies);
-
-        boolean hasSleeper = passengerBogies.contains("Sleeper");
-        System.out.println("Is Sleeper present? " + hasSleeper);
-
-        System.out.println("Final bogie count: " + passengerBogies.size());
+        System.out.println("Unique bogie IDs: " + bogieIds);
+        System.out.println("Total unique IDs: " + bogieIds.size());
     }
 }
