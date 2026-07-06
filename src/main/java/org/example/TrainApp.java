@@ -1,26 +1,21 @@
 package org.example;
-
-import java.util.LinkedList;
+//       uniqueness+fastaccess+insertionorder
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 public class TrainApp {
     public static void main(String[] args) {
         System.out.println("=== Train Consist Management App ===");
 
-        LinkedList<String> consist = new LinkedList<>();
+        Set<String> trainFormation = new LinkedHashSet<>();
 
-        consist.add("Engine");
-        consist.add("Sleeper");
-        consist.add("AC");
-        consist.add("Cargo");
-        consist.add("Guard");
+        trainFormation.add("Engine");
+        trainFormation.add("Sleeper");
+        trainFormation.add("Cargo");
+        trainFormation.add("Guard");
+        trainFormation.add("Sleeper");  // duplicate
 
-        System.out.println("Initial consist: " + consist);
-
-        consist.add(2, "Pantry Car");
-        System.out.println("After inserting Pantry Car at index 2: " + consist);
-
-        consist.removeFirst();
-        consist.removeLast();
-        System.out.println("Final consist: " + consist);
+        System.out.println("Train formation: " + trainFormation);
+        System.out.println("Total unique bogies: " + trainFormation.size());
     }
 }
