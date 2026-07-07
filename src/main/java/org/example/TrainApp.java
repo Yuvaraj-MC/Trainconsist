@@ -2,36 +2,46 @@ package org.example;
 
 /**
  * =========================================================
- * MAIN CLASS – UseCase18TrainConsistMgmnt
+ * MAIN CLASS – UseCase19TrainConsistMgmnt
  * =========================================================
  *
- * Use Case 18: Linear Search for Bogie ID
+ * Use Case 19: Binary Search for Bogie ID (Optimized)
  *
  * Description:
- * This class searches for a specific bogie ID in an
- * unsorted array using the Linear Search algorithm.
+ * This class searches for a bogie ID in a SORTED array
+ * using the Binary Search algorithm (divide-and-conquer).
  * =========================================================
  */
+
 public class TrainApp {
 
     public static void main(String[] args) {
         System.out.println("===============================================");
-        System.out.println(" UC18 - Linear Search for Bogie ID ");
+        System.out.println(" UC19 - Binary Search for Bogie ID ");
         System.out.println("===============================================\n");
 
-        // Array of bogie IDs (unsorted)
-        String[] bogieIds = {"BG103", "BG101", "BG105", "BG102", "BG104"};
+        // Bogie IDs — MUST be sorted for binary search
+        String[] bogieIds = {"BG101", "BG102", "BG103", "BG104", "BG105"};
 
         // ID to search
-        String searchKey = "BG102";
+        String searchKey = "BG105";
 
-        // Linear Search logic
-        int foundIndex = -1;   // -1 means "not found" (default)
+        // Binary Search logic
+        int low = 0;
+        int high = bogieIds.length - 1;
+        int foundIndex = -1;
 
-        for (int i = 0; i < bogieIds.length; i++) {
-            if (bogieIds[i].equals(searchKey)) {
-                foundIndex = i;   // match found, store the index
-                break;            // stop searching (early termination)
+        while (low <= high) {
+            int mid = (low + high) / 2;               // middle index
+            int compare = bogieIds[mid].compareTo(searchKey);
+
+            if (compare == 0) {
+                foundIndex = mid;                     // match found
+                break;
+            } else if (compare < 0) {
+                low = mid + 1;                        // search right half
+            } else {
+                high = mid - 1;                       // search left half
             }
         }
 
@@ -42,6 +52,6 @@ public class TrainApp {
             System.out.println("Bogie '" + searchKey + "' not found in the consist");
         }
 
-        System.out.println("\nUC18 linear search completed...");
+        System.out.println("\nUC19 binary search completed...");
     }
 }
