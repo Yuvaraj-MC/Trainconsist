@@ -1,57 +1,69 @@
 package org.example;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * =========================================================
- * MAIN CLASS – UseCase19TrainConsistMgmnt
+ * MAIN CLASS – UseCase20TrainConsistMgmnt
  * =========================================================
  *
- * Use Case 19: Binary Search for Bogie ID (Optimized)
+ * Use Case 20: Exception Handling During Search Operations
  *
  * Description:
- * This class searches for a bogie ID in a SORTED array
- * using the Binary Search algorithm (divide-and-conquer).
+ * This class prevents searching on an empty train by
+ * throwing an IllegalStateException early (fail-fast).
  * =========================================================
  */
-
 public class TrainApp {
+
+    // Method that searches, but validates state first
+    static boolean searchBogie(List<String> bogies, String searchKey) {
+        // Defensive check: fail-fast if the train is empty
+        if (bogies.isEmpty()) {
+            throw new IllegalStateException(
+                    "Cannot search: the train has no bogies. Add bogies first.");
+        }
+
+        // Normal linear search (only runs if not empty)
+        for (String id : bogies) {
+            if (id.equals(searchKey)) {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public static void main(String[] args) {
         System.out.println("===============================================");
-        System.out.println(" UC19 - Binary Search for Bogie ID ");
+        System.out.println(" UC20 - Exception Handling During Search ");
         System.out.println("===============================================\n");
 
-        // Bogie IDs — MUST be sorted for binary search
-        String[] bogieIds = {"BG101", "BG102", "BG103", "BG104", "BG105"};
-
-        // ID to search
-        String searchKey = "BG105";
-
-        // Binary Search logic
-        int low = 0;
-        int high = bogieIds.length - 1;
-        int foundIndex = -1;
-
-        while (low <= high) {
-            int mid = (low + high) / 2;               // middle index
-            int compare = bogieIds[mid].compareTo(searchKey);
-
-            if (compare == 0) {
-                foundIndex = mid;                     // match found
-                break;
-            } else if (compare < 0) {
-                low = mid + 1;                        // search right half
-            } else {
-                high = mid - 1;                       // search left half
-            }
+        // Case 1: Search on an EMPTY train
+        List<String> emptyTrain = new ArrayList<>();
+        try {
+            System.out.println("Searching in empty train...");
+            searchBogie(emptyTrain, "BG101");
+        } catch (IllegalStateException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        // Display result
-        if (foundIndex != -1) {
-            System.out.println("Bogie '" + searchKey + "' found at index " + foundIndex);
-        } else {
-            System.out.println("Bogie '" + searchKey + "' not found in the consist");
+        System.out.println();
+
+        // Case 2: Search on a train WITH bogies
+        List<String> train = new ArrayList<>();
+        train.add("BG101");
+        train.add("BG102");
+        train.add("BG103");
+
+        try {
+            System.out.println("Searching in loaded train...");
+            boolean found = searchBogie(train, "BG102");
+            System.out.println("Is 'BG102' present? " + found);
+        } catch (IllegalStateException e) {
+            System.out.println("Error: " + e.getMessage());
         }
 
-        System.out.println("\nUC19 binary search completed...");
+        System.out.println("\nUC20 defensive search completed...");
     }
 }
