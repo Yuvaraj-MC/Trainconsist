@@ -1,52 +1,59 @@
 package org.example;
 
-import java.util.regex.Pattern;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * =========================================================
- * MAIN CLASS – UseCase11TrainConsistMgmnt
+ * MAIN CLASS – UseCase12TrainConsistMgmnt
  * =========================================================
  *
- * Use Case 11: Validate Train ID & Cargo Codes (Regex)
+ * Use Case 12: Safety Compliance Check for Goods Bogies
  *
  * Description:
- * This class validates Train ID and Cargo Code formats
- * using Regular Expressions (Pattern and Matcher).
+ * This class checks whether all goods bogies follow safety
+ * rules using Stream allMatch() with conditional logic.
+ * Rule: Cylindrical bogies must carry only Petroleum.
  * =========================================================
  */
 public class TrainApp {
 
+    // Inner Bogie class for goods bogies (shape + cargo)
+    static class Bogie {
+        String shape;
+        String cargo;
+
+        Bogie(String shape, String cargo) {
+            this.shape = shape;
+            this.cargo = cargo;
+        }
+    }
+
     public static void main(String[] args) {
         System.out.println("===============================================");
-        System.out.println(" UC11 - Validate Train ID & Cargo Codes ");
+        System.out.println(" UC12 - Safety Compliance Check ");
         System.out.println("===============================================\n");
 
-        // Define regex patterns
-        String trainIdPattern = "TRN-\\d{4}";
-        String cargoCodePattern = "PET-[A-Z]{2}";
+        // Create list of goods bogies
+        List<Bogie> bogies = new ArrayList<>();
+        bogies.add(new Bogie("Rectangular", "Coal"));
+        bogies.add(new Bogie("Cylindrical", "Petroleum"));
+        bogies.add(new Bogie("Rectangular", "Grains"));
 
-        // Compile the patterns
-        Pattern trainPattern = Pattern.compile(trainIdPattern);
-        Pattern cargoPattern = Pattern.compile(cargoCodePattern);
+        // Display bogies
+        System.out.println("Goods bogies in the train:");
+        for (Bogie b : bogies) {
+            System.out.println("   " + b.shape + " -> " + b.cargo);
+        }
 
-        // Sample inputs to validate
-        String trainId1 = "TRN-1234";   // valid
-        String trainId2 = "TRAIN12";    // invalid
-        String cargoCode1 = "PET-AB";   // valid
-        String cargoCode2 = "PET-12";   // invalid
+        // Safety rule: Cylindrical bogies must carry only Petroleum
+        boolean isSafe = bogies.stream()
+                .allMatch(b -> !b.shape.equals("Cylindrical")
+                        || b.cargo.equals("Petroleum"));
 
-        // Validate Train IDs
-        System.out.println("Train ID '" + trainId1 + "' valid? "
-                + trainPattern.matcher(trainId1).matches());
-        System.out.println("Train ID '" + trainId2 + "' valid? "
-                + trainPattern.matcher(trainId2).matches());
+        // Display result
+        System.out.println("\nIs the train safety compliant? " + isSafe);
 
-        // Validate Cargo Codes
-        System.out.println("Cargo Code '" + cargoCode1 + "' valid? "
-                + cargoPattern.matcher(cargoCode1).matches());
-        System.out.println("Cargo Code '" + cargoCode2 + "' valid? "
-                + cargoPattern.matcher(cargoCode2).matches());
-
-        System.out.println("\nUC11 validation completed...");
+        System.out.println("\nUC12 safety check completed...");
     }
 }
